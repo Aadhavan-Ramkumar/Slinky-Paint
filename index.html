@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title> Slinky Paint </title>
+</head>
+
+<body id="Background">
+    <center>
+        <h1> Slinky Paint </h1>
+        <canvas id="MyCanvas" height="600" width="800"></canvas>
+        <br>
+        <span> Radius - </span>
+        <input id="Radius" type="input" value="25">
+        <span> Color - </span>
+        <input id="Color" type="input" value="Red">
+        <span> Width of the Line - </span>
+        <input id="LineWidth" type="input" value="2">
+        <br>
+        <button type="button"> Clear Area </button>
+    </center>
+    <style>
+        h1 {
+            color: red;
+            font-size: 40px;
+        }
+
+        #Background {
+            background-image: url("Background.jpg");
+            background-position: center;
+            background-size: cover;
+        }
+
+        #MyCanvas {
+            background-color: white;
+            border-style: ridge;
+            border-width: 10px;
+        }
+
+        button {
+            background-color: green;
+            color: white;
+            width: 100px;
+            height: 50px;
+            font-size: 17px;
+        }
+    </style>
+    <script>
+        Canvas = document.getElementById("MyCanvas");
+        Ctx = Canvas.getContext("2d");
+        TheMouseEvent = "empty";
+        var LastPositionX;
+        var LastPositionY;
+        var Radius;
+        var Color;
+        var LineWidth;
+
+        Canvas.addEventListener("mousedown", MyMouseDown);
+
+        function MyMouseDown(e) {
+            Color = document.getElementById("Color").value;
+            LineWidth = document.getElementById("LineWidth").value;
+            Radius = document.getElementById("Radius").value;
+            TheMouseEvent = "MouseDown";
+        }
+
+        Canvas.addEventListener("mouseup", MyMouseUp);
+
+        function MyMouseUp(e) {
+            TheMouseEvent = "MouseUp";
+        }
+
+        Canvas.addEventListener("mouseleave", MyMouseLeave);
+
+        function MyMouseLeave(e) {
+            TheMouseEvent = "MouseLeave";
+        }
+
+        Canvas.addEventListener("mousemove", MyMouseMove);
+
+        function MyMouseMove(e) {
+            CurrentPositionX = e.clientX = Canvas.offsetLeft;
+            CurrentPositionY = e.clientY = Canvas.offsetTop;
+            if (TheMouseEvent = "MouseDown") {
+                console.log("The current position of X = " + CurrentPositionX + "; The current position of Y = " +
+                    CurrentPositionY);
+                Ctx.beginPath();
+                Ctx.strokeStyle = Color;
+                Ctx.lineWidth = LineWidth;
+                Ctx.arc(CurrentPositionX, CurrentPositionY, Radius, 0, 2 * Math.PI);
+                Ctx.stroke();
+            }
+            LastPositionX = CurrentPositionX;
+            LastPositionY = CurrentPositionY;
+        }
+    </script>
+</body>
+
+</html>
